@@ -1,0 +1,197 @@
+﻿@page "/chat"
+
+@using ChatApp.Shared
+@using ChatApp.Shared.Services
+@using Microsoft.AspNetCore.Components.Web
+
+@inject AuthService Auth
+@inject ChatService Chat
+@inject NavigationManager Navigation
+
+@implements IDisposable
+
+<div class="chat-container">
+    <div class="header">
+        <span>Чат - @Auth.Username</span>
+        <button @onclick="Logout">Выйти</button>
+    </div>
+
+    <div class="messages" @ref="messagesContainer">
+        @foreach (var msg in Chat.Messages)
+        {
+            <div class="message @(msg.Username == Auth.Username ? "own" : "")">
+                <div class="username">@msg.Username</div>
+                <div class="content">@msg.Content</div>
+                <div class="time">@msg.Timestamp.ToString("HH:mm")</div>
+            </div>
+        }
+    </div>
+
+    <div class="input-area">
+        <input @bind="newMessage" @onkeypress="OnKeyPress" placeholder="Введите сообщение..." />
+        <button @onclick="SendMessage" disabled="@(string.IsNullOrWhiteSpace(newMessage) || !Chat.IsConnected)">
+            Отправить
+        </button>
+    </div>
+</div>
+
+@code {
+    private string newMessage = "";
+    private ElementReference messagesContainer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!Auth.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/");
+            return;
+        }
+
+        Chat.PropertyChanged += OnMessagesChanged;
+        await Chat.ConnectAsync(Auth.Token!);
+    }
+
+    private void OnMessagesChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        InvokeAsync(() =>
+        {
+            StateHasChanged();
+            _ = ScrollToBottom();
+        });
+    }
+
+    private async Task SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(newMessage))
+        {
+            await Chat.SendMessageAsync(newMessage);
+            newMessage = "";
+        }
+    }
+
+    private async Task OnKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SendMessage();
+        }
+    }
+
+    private async Task ScrollToBottom()
+    {
+        await Task.Delay(50);
+        try
+        {
+            await messagesContainer.FocusAsync();
+        }
+        catch
+        {
+
+        }
+    }
+
+    private async Task Logout()
+    {
+        await Chat.DisconnectAsync();
+        Auth.Logout();
+        Navigation.NavigateTo("/");
+    }
+
+    public void Dispose()
+    {
+        Chat.PropertyChanged -= OnMessagesChanged;
+        _ = Chat.DisconnectAsync();
+    }
+}
+
+<style>
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .message {
+        max-width: 70%;
+        padding: 10px;
+        border-radius: 10px;
+        background: #e9ecef;
+    }
+
+        .message.own {
+            align-self: flex-end;
+            background: #007bff;
+            color: white;
+        }
+
+    .username {
+        font-weight: bold;
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .content {
+        margin-bottom: 5px;
+    }
+
+    .time {
+        font-size: 10px;
+        opacity: 0.7;
+    }
+
+    .input-area {
+        display: flex;
+        padding: 20px;
+        gap: 10px;
+        border-top: 1px solid #ddd;
+    }
+
+        .input-area input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .input-area button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+            .input-area button:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+            }
+
+    .header button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background: #dc3545;
+        color: white;
+        cursor: pointer;
+    }
+</style>

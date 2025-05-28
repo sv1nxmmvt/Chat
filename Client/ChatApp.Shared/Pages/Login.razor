@@ -1,0 +1,120 @@
+﻿@page "/"
+@inject AuthService Auth
+@inject NavigationManager Navigation
+
+<div class="login-container">
+    <h2>Chat</h2>
+
+    <div class="form">
+        <input @bind="username" placeholder="Логин" />
+        <input @bind="password" type="password" placeholder="Пароль" />
+
+        <button @onclick="LoginAsync" disabled="@isLoading">Войти</button>
+        <button @onclick="RegisterAsync" disabled="@isLoading">Регистрация</button>
+
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <div class="error">@error</div>
+        }
+    </div>
+</div>
+
+@code {
+    private string username = "";
+    private string password = "";
+    private string error = "";
+    private bool isLoading = false;
+
+    private async Task LoginAsync()
+    {
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            error = "Заполните все поля";
+            return;
+        }
+
+        isLoading = true;
+        error = "";
+
+        if (await Auth.LoginAsync(username, password))
+        {
+            Navigation.NavigateTo("/chat");
+        }
+        else
+        {
+            error = "Неверный логин или пароль";
+        }
+
+        isLoading = false;
+    }
+
+    private async Task RegisterAsync()
+    {
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            error = "Заполните все поля";
+            return;
+        }
+
+        if (password.Length < 6)
+        {
+            error = "Пароль должен быть не менее 6 символов";
+            return;
+        }
+
+        isLoading = true;
+        error = "";
+
+        if (await Auth.RegisterAsync(username, password))
+        {
+            Navigation.NavigateTo("/chat");
+        }
+        else
+        {
+            error = "Ошибка регистрации";
+        }
+
+        isLoading = false;
+    }
+}
+
+<style>
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        gap: 20px;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 300px;
+    }
+
+    input, button {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    button {
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .error {
+        color: red;
+        text-align: center;
+    }
+</style>
