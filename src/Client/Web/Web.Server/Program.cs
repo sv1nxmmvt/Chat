@@ -1,5 +1,5 @@
-using Client.Web.Server.Components;
-using Client.Common.Services;
+using Chat.Client.Web.Server.Components;
+using Chat.Client.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +31,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(
-        typeof(Client.Common._Imports).Assembly,
-        typeof(Client.Web.Webassembly._Imports).Assembly);
+        typeof(Chat.Client.Common._Imports).Assembly,
+        typeof(Chat.Client.Web.Webassembly._Imports).Assembly);
 
 app.Run();

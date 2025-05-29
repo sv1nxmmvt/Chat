@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace ChatApp
+namespace Chat.Client.MAUI
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

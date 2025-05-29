@@ -3,24 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.API", "src\Server\Server.API.csproj", "{6F352541-0073-E18F-D2ED-DFB391098920}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Server.API", "src\Server\Chat.Server.API.csproj", "{6F352541-0073-E18F-D2ED-DFB391098920}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Common", "src\Client\Common\Client.Common.csproj", "{63FF8ADD-5E18-D0AB-6561-C987F3BFEFF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Client.Common", "src\Client\Common\Chat.Client.Common.csproj", "{63FF8ADD-5E18-D0AB-6561-C987F3BFEFF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.MAUI", "src\Client\MAUI\Client.MAUI.csproj", "{D92FA8FA-6AE7-9186-3275-DFA85D7034FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Client.MAUI", "src\Client\MAUI\Chat.Client.MAUI.csproj", "{D92FA8FA-6AE7-9186-3275-DFA85D7034FD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{63FF8ADD-5E18-D0AB-6561-C987F3BFEFF9} = {63FF8ADD-5E18-D0AB-6561-C987F3BFEFF9}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Web.Webassembly", "src\Client\Web.Webassembly\Client.Web.Webassembly.csproj", "{80611F8F-709B-26FC-5E78-E81412C1DD32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Client.Web.Webassembly", "src\Client\Web\Web.Webassembly\Chat.Client.Web.Webassembly.csproj", "{AC3F378E-3647-F06C-DE0F-2CAF24A13E85}"
 	ProjectSection(ProjectDependencies) = postProject
 		{63FF8ADD-5E18-D0AB-6561-C987F3BFEFF9} = {63FF8ADD-5E18-D0AB-6561-C987F3BFEFF9}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Web.Server", "src\Client\Web.Server\Client.Web.Server.csproj", "{AE8D1EB5-21DD-C9F4-BA8B-8DCE777CC8E3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{80611F8F-709B-26FC-5E78-E81412C1DD32} = {80611F8F-709B-26FC-5E78-E81412C1DD32}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Client.Web.Server", "src\Client\Web\Web.Server\Chat.Client.Web.Server.csproj", "{51F356CA-A665-29CA-A6DC-502B9336FDD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,14 +37,14 @@ Global
 		{D92FA8FA-6AE7-9186-3275-DFA85D7034FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D92FA8FA-6AE7-9186-3275-DFA85D7034FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D92FA8FA-6AE7-9186-3275-DFA85D7034FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80611F8F-709B-26FC-5E78-E81412C1DD32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80611F8F-709B-26FC-5E78-E81412C1DD32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80611F8F-709B-26FC-5E78-E81412C1DD32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80611F8F-709B-26FC-5E78-E81412C1DD32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE8D1EB5-21DD-C9F4-BA8B-8DCE777CC8E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE8D1EB5-21DD-C9F4-BA8B-8DCE777CC8E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE8D1EB5-21DD-C9F4-BA8B-8DCE777CC8E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE8D1EB5-21DD-C9F4-BA8B-8DCE777CC8E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC3F378E-3647-F06C-DE0F-2CAF24A13E85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC3F378E-3647-F06C-DE0F-2CAF24A13E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC3F378E-3647-F06C-DE0F-2CAF24A13E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC3F378E-3647-F06C-DE0F-2CAF24A13E85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51F356CA-A665-29CA-A6DC-502B9336FDD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51F356CA-A665-29CA-A6DC-502B9336FDD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51F356CA-A665-29CA-A6DC-502B9336FDD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51F356CA-A665-29CA-A6DC-502B9336FDD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

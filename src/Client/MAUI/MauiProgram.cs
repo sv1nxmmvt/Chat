@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using Client.Common.Services;
+using Chat.Client.Common.Services;
 
-namespace ChatApp;
+namespace Chat.Client.MAUI;
 
 public static class MauiProgram
 {

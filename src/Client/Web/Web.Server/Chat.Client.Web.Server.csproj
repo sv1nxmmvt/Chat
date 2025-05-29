@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Web.Webassembly\Client.Web.Webassembly.csproj" />
+    <ProjectReference Include="..\Web.Webassembly\Chat.Client.Web.Webassembly.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
   </ItemGroup>
 

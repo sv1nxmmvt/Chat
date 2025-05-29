@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.Json;
 
-namespace Client.Common.Services;
+namespace Chat.Client.Common.Services;
 
 public class ChatService : INotifyPropertyChanged
 {

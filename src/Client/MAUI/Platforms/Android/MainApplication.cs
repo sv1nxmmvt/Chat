@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace ChatApp
+namespace Chat.Client.MAUI
 {
     [Application]
     public class MainApplication : MauiApplication
