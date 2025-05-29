@@ -5,7 +5,9 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "server.api": "StartDebugging",
-        "client.web.server": "StartDebugging"
+        "client.web.server": "StartDebugging",
+        "chat.server.api": "StartDebugging",
+        "chat.client.web.server": "StartDebugging"
       }
     }
   }
