@@ -36,10 +36,8 @@ namespace Server.Services
                 UserId = userId,
                 Timestamp = DateTime.UtcNow
             };
-
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
-
             return new MessageDto
             {
                 Id = message.Id,

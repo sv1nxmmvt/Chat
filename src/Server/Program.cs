@@ -36,7 +36,7 @@ builder.Services.Configure<IdentityOptions>(options =>
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ0123456789-._@+àáâãäå¸æçèéêëìíîïðñòóôõö÷øùúûüýþÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß";
 });
 
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "your-secret-key-here-make-it-long-enough-for-security";
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "my-secret-key-here-make-it-long-enough-for-security";
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(x =>

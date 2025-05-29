@@ -53,7 +53,7 @@ namespace Server.Services
                 var user = new User
                 {
                     UserName = request.Username,
-                    Email = $"{request.Username}@chat.local" // Dummy email since we don't require real emails
+                    Email = $"{request.Username}@chat.local"
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);
@@ -79,7 +79,7 @@ namespace Server.Services
         }
         private string GenerateJwtToken(User user)
         {
-            var key = _configuration["Jwt:Key"] ?? "your-secret-key-here-make-it-long-enough-for-security";
+            var key = _configuration["Jwt:Key"] ?? "my-secret-key-here-make-it-long-enough-for-security";
             var keyBytes = Encoding.ASCII.GetBytes(key);
 
             var claims = new[]

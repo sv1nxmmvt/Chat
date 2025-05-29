@@ -21,10 +21,8 @@ namespace Server.Hubs
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(content))
                 return;
 
-            // Save message to database
             var messageDto = await _chatService.AddMessageAsync(content, userId, username);
 
-            // Send to all connected clients
             await Clients.All.SendAsync("ReceiveMessage", messageDto);
         }
         public override async Task OnConnectedAsync()
