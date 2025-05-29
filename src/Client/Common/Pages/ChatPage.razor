@@ -133,7 +133,8 @@
     }
 
     .message {
-        max-width: 75%;
+        max-width: 60%;
+        width: fit-content;
         padding: 15px 18px;
         border-radius: 18px;
         background: rgba(255, 255, 255, 0.95);
@@ -142,20 +143,21 @@
         transition: transform 0.2s ease;
     }
 
-    .message:hover {
-        transform: translateY(-1px);
-    }
+        .message:hover {
+            transform: translateY(-1px);
+        }
 
-    .message.own {
-        align-self: flex-end;
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        color: white;
-        border-radius: 18px 18px 5px 18px;
-    }
+        .message.own {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 18px 18px 5px 18px;
+        }
 
-    .message:not(.own) {
-        border-radius: 18px 18px 18px 5px;
-    }
+        .message:not(.own) {
+            align-self: flex-start; /* Добавлено для выравнивания слева */
+            border-radius: 18px 18px 18px 5px;
+        }
 
     .username {
         font-weight: 600;
@@ -196,46 +198,46 @@
         box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.05);
     }
 
-    .input-area input {
-        flex: 1;
-        padding: 15px 20px;
-        border: 2px solid #e9ecef;
-        border-radius: 25px;
-        font-size: 14px;
-        outline: none;
-        transition: all 0.3s ease;
-        background: white;
-    }
+        .input-area input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
 
-    .input-area input:focus {
-        border-color: #4facfe;
-        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-    }
+            .input-area input:focus {
+                border-color: #4facfe;
+                box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            }
 
-    .input-area button {
-        padding: 15px 25px;
-        border: none;
-        border-radius: 25px;
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        color: white;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        min-width: 100px;
-    }
+        .input-area button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
 
-    .input-area button:hover:not(:disabled) {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(79, 172, 254, 0.3);
-    }
+            .input-area button:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(79, 172, 254, 0.3);
+            }
 
-    .input-area button:disabled {
-        background: #bdc3c7;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
+            .input-area button:disabled {
+                background: #bdc3c7;
+                cursor: not-allowed;
+                transform: none;
+                box-shadow: none;
+            }
 
     .header button {
         padding: 10px 18px;
@@ -248,10 +250,10 @@
         transition: all 0.2s ease;
     }
 
-    .header button:hover {
-        background: #c0392b;
-        transform: translateY(-1px);
-    }
+        .header button:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
 
     .messages::-webkit-scrollbar {
         width: 6px;
@@ -267,7 +269,7 @@
         border-radius: 3px;
     }
 
-    .messages::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 0, 0, 0.3);
-    }
+        .messages::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
 </style>
