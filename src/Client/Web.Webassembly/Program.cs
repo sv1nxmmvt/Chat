@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using ChatApp.Shared.Services;
+using Client.Common.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 

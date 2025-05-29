@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace ChatApp.Shared.Services;
+namespace Client.Common.Services;
 
 public class AuthService
 {

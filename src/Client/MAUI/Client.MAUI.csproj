@@ -49,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChatApp.Shared\Client.Common.csproj" />
+    <ProjectReference Include="..\Common\Client.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using ChatApp.Shared.Services;
+using Client.Common.Services;
 
 namespace ChatApp;
 

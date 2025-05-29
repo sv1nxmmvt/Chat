@@ -1,5 +1,5 @@
 using Client.Web.Server.Components;
-using ChatApp.Shared.Services;
+using Client.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
