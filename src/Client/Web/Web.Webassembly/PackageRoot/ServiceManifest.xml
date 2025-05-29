@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceManifest Name="Chat.Client.Web.WebassemblyPkg"
+                 Version="1.0.0"
+                 xmlns="http://schemas.microsoft.com/2011/01/fabric"
+                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ServiceTypes>
+    <!-- Это имя ServiceType.
+         Атрибут UseImplicitHost означает, что это гостевая служба. -->
+    <StatelessServiceType ServiceTypeName="Chat.Client.Web.WebassemblyType" UseImplicitHost="true" />
+  </ServiceTypes>
+
+  <!-- Пакет кода является исполняемым файлом службы. -->
+  <CodePackage Name="Code" Version="1.0.0">
+    <EntryPoint>
+      <!-- Для получения дополнительных сведений о развертывании контейнеров Windows в Service Fabric перейдите по ссылке https://aka.ms/sfguestcontainers. -->
+      <ContainerHost>
+        <ImageName>chat.client.web.webassembly:dev</ImageName>
+      </ContainerHost>
+    </EntryPoint>
+    <!-- Передача переменных среды в контейнер: -->
+    <!--
+    <EnvironmentVariables>
+      <EnvironmentVariable Name="VariableName" Value="VariableValue"/>
+    </EnvironmentVariables>
+    -->
+  </CodePackage>
+
+  <!-- Пакет конфигурации представляет собой содержимое каталога Config в PackageRoot 
+       с набором настраиваемых параметров конфигурации для вашей службы, который обновляется независимо и имеет контроль версий. -->
+  <ConfigPackage Name="Config" Version="1.0.0" />
+
+  <Resources>
+    <Endpoints>
+      <!-- Эту конечную точку прослушиватель каналов связи использует для получения порта для
+           прослушивания. Обратите внимание, что, если ваша служба поделена на разделы, этот порт совместно используется
+           с репликами различных разделов, размещенными в коде. -->
+      <Endpoint Protocol="http" Name="Chat.Client.Web.WebassemblyTypeEndpoint" Type="Input" Port="8844" />
+    </Endpoints>
+  </Resources>
+</ServiceManifest>

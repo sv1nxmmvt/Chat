@@ -1,0 +1,13 @@
+services:
+  chat.server.api:
+    image: ${DOCKER_REGISTRY-}chatserverapi
+    build:
+      context: src/Server
+      dockerfile: Dockerfile
+
+  chat.client.web.server:
+    image: ${DOCKER_REGISTRY-}chatclientwebserver
+    build:
+      context: src/Client
+      dockerfile: Web/Web.Server/Dockerfile
+

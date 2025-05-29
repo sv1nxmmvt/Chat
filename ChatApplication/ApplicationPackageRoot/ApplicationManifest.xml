@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest ApplicationTypeName="ChatApplicationType"
+                     ApplicationTypeVersion="1.0.0"
+                     xmlns="http://schemas.microsoft.com/2011/01/fabric"
+                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Parameters>
+    <Parameter Name="Chat.Client.Web.Webassembly_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="Chat.Client.Web.Webassembly_Isolation" DefaultValue="default" />
+  </Parameters>
+  <!-- Импортируйте ServiceManifest из ServicePackage. Значения ServiceManifestName и ServiceManifestVersion 
+       должны совпадать с атрибутами Name и Version элемента ServiceManifest, определенного в 
+       файле ServiceManifest.xml. -->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="Chat.Client.Web.WebassemblyPkg" ServiceManifestVersion="1.0.0" />
+    <Policies>
+      <ContainerHostPolicies CodePackageRef="Code" Isolation="[Chat.Client.Web.Webassembly_Isolation]">
+        <PortBinding ContainerPort="8080" EndpointRef="Chat.Client.Web.WebassemblyTypeEndpoint" />
+      </ContainerHostPolicies>
+    </Policies>
+  </ServiceManifestImport>
+  <DefaultServices>
+    <!-- Приведенный ниже раздел создает экземпляры типов служб при создании экземпляра этого 
+         типа приложения. Кроме того, вы можете создать один экземпляр типа службы или несколько с помощью 
+         модуля ServiceFabric PowerShell.
+
+         Указанное ниже значение атрибута ServiceTypeName должно совпадать с именем, определенным в импортированном файле ServiceManifest.xml. -->
+    <Service Name="Chat.Client.Web.Webassembly" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="Chat.Client.Web.WebassemblyType" InstanceCount="[Chat.Client.Web.Webassembly_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+  </DefaultServices>
+</ApplicationManifest>
