@@ -18,6 +18,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Client.Web.Webassembly
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat.Client.Web.Server", "src\Client\Web\Web.Server\Chat.Client.Web.Server.csproj", "{51F356CA-A665-29CA-A6DC-502B9336FDD7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AC3F378E-3647-F06C-DE0F-2CAF24A13E85} = {AC3F378E-3647-F06C-DE0F-2CAF24A13E85}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
