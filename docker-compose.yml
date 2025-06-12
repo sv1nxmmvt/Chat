@@ -1,12 +1,44 @@
+version: '3.8'
+
 services:
   chat.server.api:
     image: ${DOCKER_REGISTRY-}chatserverapi
     build:
-      context: src/Server
+      context: ./src/Server
       dockerfile: Dockerfile
+    container_name: chat-server-api
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080;https://+:8081
+    networks:
+      - chat-network
+    restart: unless-stopped
 
   chat.client.web.server:
     image: ${DOCKER_REGISTRY-}chatclientwebserver
     build:
-      context: src/Client
+      context: ./src/Client
       dockerfile: Web/Web.Server/Dockerfile
+    container_name: chat-client-web-server
+    ports:
+      - "3000:8080"
+      - "3001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080;https://+:8081
+      - API_BASE_URL=http://chat.server.api:8080
+    depends_on:
+      - chat.server.api
+    networks:
+      - chat-network
+    restart: unless-stopped
+
+networks:
+  chat-network:
+    driver: bridge
+
+volumes:
+  chat-data:
