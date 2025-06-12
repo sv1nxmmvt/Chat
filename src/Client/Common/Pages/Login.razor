@@ -2,20 +2,100 @@
 @inject AuthService Auth
 @inject NavigationManager Navigation
 
-<div class="login-container">
-    <h2>Chat</h2>
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="row w-100 justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h1 class="h3 mb-3 fw-normal text-primary">
+                            <i class="bi bi-chat-dots-fill me-2"></i>Chat
+                        </h1>
+                        <p class="text-muted">Войдите в свой аккаунт или создайте новый</p>
+                    </div>
 
-    <div class="form">
-        <input @bind="username" placeholder="Логин" />
-        <input @bind="password" type="password" placeholder="Пароль" />
+                    <form>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Логин</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person-fill"></i>
+                                </span>
+                                <input @bind="username"
+                                       type="text"
+                                       class="form-control form-control-lg"
+                                       id="username"
+                                       placeholder="Введите логин"
+                                       disabled="@isLoading" />
+                            </div>
+                        </div>
 
-        <button @onclick="LoginAsync" disabled="@isLoading">Войти</button>
-        <button @onclick="RegisterAsync" disabled="@isLoading">Регистрация</button>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Пароль</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock-fill"></i>
+                                </span>
+                                <input @bind="password"
+                                       type="password"
+                                       class="form-control form-control-lg"
+                                       id="password"
+                                       placeholder="Введите пароль"
+                                       disabled="@isLoading" />
+                            </div>
+                        </div>
 
-        @if (!string.IsNullOrEmpty(error))
-        {
-            <div class="error">@error</div>
-        }
+                        @if (!string.IsNullOrEmpty(error))
+                        {
+                            <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                <div>@error</div>
+                            </div>
+                        }
+
+                        <div class="d-grid gap-2">
+                            <button @onclick="LoginAsync"
+                                    type="button"
+                                    class="btn btn-primary btn-lg"
+                                    disabled="@isLoading">
+                                @if (isLoading)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    <span>Загрузка...</span>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>
+                                    <span>Войти</span>
+                                }
+                            </button>
+
+                            <button @onclick="RegisterAsync"
+                                    type="button"
+                                    class="btn btn-outline-primary btn-lg"
+                                    disabled="@isLoading">
+                                @if (isLoading)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    <span>Загрузка...</span>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-person-plus-fill me-2"></i>
+                                    <span>Регистрация</span>
+                                }
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer bg-transparent text-center py-3">
+                    <small class="text-muted">
+                        Добро пожаловать в наш чат!
+                    </small>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -35,6 +115,7 @@
 
         isLoading = true;
         error = "";
+        StateHasChanged();
 
         if (await Auth.LoginAsync(username, password))
         {
@@ -46,6 +127,7 @@
         }
 
         isLoading = false;
+        StateHasChanged();
     }
 
     private async Task RegisterAsync()
@@ -64,6 +146,7 @@
 
         isLoading = true;
         error = "";
+        StateHasChanged();
 
         if (await Auth.RegisterAsync(username, password))
         {
@@ -75,46 +158,6 @@
         }
 
         isLoading = false;
+        StateHasChanged();
     }
 }
-
-<style>
-    .login-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        gap: 20px;
-    }
-
-    .form {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 300px;
-    }
-
-    input, button {
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-    }
-
-    button {
-        background: #007bff;
-        color: white;
-        cursor: pointer;
-    }
-
-    button:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-    }
-
-    .error {
-        color: red;
-        text-align: center;
-    }
-</style>
