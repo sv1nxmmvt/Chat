@@ -11,11 +11,55 @@ using Server.Models;
 using Server.Services;
 using System.Text;
 
+static string GetPasswordFromConsole()
+{
+    Console.Write("Enter database password: ");
+    string password = "";
+    ConsoleKeyInfo keyInfo;
+
+    do
+    {
+        keyInfo = Console.ReadKey(intercept: true);
+
+        if (keyInfo.Key == ConsoleKey.Backspace && password.Length > 0)
+        {
+            password = password[0..^1];
+            Console.Write("\b \b");
+        }
+        else if (!char.IsControl(keyInfo.KeyChar))
+        {
+            password += keyInfo.KeyChar;
+            Console.Write("*");
+        }
+    }
+    while (keyInfo.Key != ConsoleKey.Enter);
+
+    Console.WriteLine();
+    return password;
+}
+
+string dbPassword = GetPasswordFromConsole();
+
+if (string.IsNullOrWhiteSpace(dbPassword))
+{
+    Console.WriteLine("The password cannot be blank. Termination of the program.");
+    return;
+}
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionStringTemplate = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = connectionStringTemplate?.Replace("{password}", dbPassword);
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    Console.WriteLine("Error: database connection string not found.");
+    return;
+}
 
 builder.Services.AddDbContext<ChatDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(connectionString);
     options.UseLoggerFactory(LoggerFactory.Create(builder => { }));
 });
 
@@ -153,11 +197,15 @@ using (var scope = app.Services.CreateScope())
     {
         var loggerFactory = context.GetService<ILoggerFactory>();
         context.Database.EnsureCreated();
-        Console.WriteLine("Database created successfully");
+        Console.WriteLine("Preparation of database --- SUCCESS");
+        Console.WriteLine("Loading server ------------ SUCCESS");
+        Console.WriteLine();
     }
     catch (Exception ex)
     {
         Console.WriteLine($"Database creation error: {ex.Message}");
+        Console.WriteLine("Check the correctness of the entered password and the availability of the database.");
+        return;
     }
 }
 
