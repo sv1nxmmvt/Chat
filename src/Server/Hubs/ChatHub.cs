@@ -1,47 +1,46 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Chat.Server.API.Logic.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Server.Abstractions;
 using System.Security.Claims;
 
-namespace Server.Hubs
+namespace Server.Hubs;
+
+[Authorize]
+public class ChatHub : Hub
 {
-    [Authorize]
-    public class ChatHub : Hub
+    private readonly IChatService _chatService;
+    public ChatHub(IChatService chatService)
     {
-        private readonly IChatService _chatService;
-        public ChatHub(IChatService chatService)
-        {
-            _chatService = chatService;
-        }
-        public async Task SendMessage(string content)
-        {
-            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var username = Context.User?.FindFirst(ClaimTypes.Name)?.Value;
+        _chatService = chatService;
+    }
+    public async Task SendMessage(string content)
+    {
+        var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var username = Context.User?.FindFirst(ClaimTypes.Name)?.Value;
 
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(content))
-                return;
+        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(content))
+            return;
 
-            var messageDto = await _chatService.AddMessageAsync(content, userId, username);
+        var messageDto = await _chatService.AddMessageAsync(content, userId, username);
 
-            await Clients.All.SendAsync("ReceiveMessage", messageDto);
-        }
-        public override async Task OnConnectedAsync()
+        await Clients.All.SendAsync("ReceiveMessage", messageDto);
+    }
+    public override async Task OnConnectedAsync()
+    {
+        var username = Context.User?.FindFirst(ClaimTypes.Name)?.Value;
+        if (!string.IsNullOrEmpty(username))
         {
-            var username = Context.User?.FindFirst(ClaimTypes.Name)?.Value;
-            if (!string.IsNullOrEmpty(username))
-            {
-                await Clients.Others.SendAsync("UserConnected", username);
-            }
-            await base.OnConnectedAsync();
+            await Clients.Others.SendAsync("UserConnected", username);
         }
-        public override async Task OnDisconnectedAsync(Exception? exception)
+        await base.OnConnectedAsync();
+    }
+    public override async Task OnDisconnectedAsync(Exception? exception)
+    {
+        var username = Context.User?.FindFirst(ClaimTypes.Name)?.Value;
+        if (!string.IsNullOrEmpty(username))
         {
-            var username = Context.User?.FindFirst(ClaimTypes.Name)?.Value;
-            if (!string.IsNullOrEmpty(username))
-            {
-                await Clients.Others.SendAsync("UserDisconnected", username);
-            }
-            await base.OnDisconnectedAsync(exception);
+            await Clients.Others.SendAsync("UserDisconnected", username);
         }
+        await base.OnDisconnectedAsync(exception);
     }
 }

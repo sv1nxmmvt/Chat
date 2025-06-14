@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Server.Models;
+﻿using Chat.Server.API.Data.Requests;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Server.Controllers.AuthController
 {

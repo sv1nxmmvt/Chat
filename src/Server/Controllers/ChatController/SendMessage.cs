@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Chat.Server.API.Data.Requests;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Server.Models;
 using System.Security.Claims;
 
 namespace Server.Controllers.ChatController

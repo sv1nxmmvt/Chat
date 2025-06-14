@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Server.Abstractions;
+﻿using Chat.Server.API.Logic.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Server.Controllers.AuthController
 {

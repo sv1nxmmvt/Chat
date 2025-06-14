@@ -1,13 +1,14 @@
+using Chat.Server.API.Data.Models;
+using Chat.Server.API.Logic.Abstractions;
+using Chat.Server.API.Logic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Server.Abstractions;
 using Server.Data;
 using Server.Hubs;
-using Server.Models;
 using Server.Services;
 using System.Text;
 
@@ -80,7 +81,7 @@ builder.Services.Configure<IdentityOptions>(options =>
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ0123456789-._@+àáâãäå¸æçèéêëìíîïðñòóôõö÷øùúûüýþÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß";
 });
 
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "my-secret-key-here-make-it-long-enough-for-security";
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "my-secret-key-here-i-made-it-long-enough-for-security";
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(x =>
@@ -170,6 +171,25 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
+    try
+    {
+        var loggerFactory = context.GetService<ILoggerFactory>();
+        context.Database.EnsureCreated();
+        Console.WriteLine("Preparation of database --- SUCCESS");
+        Console.WriteLine("Loading server ------------ SUCCESS");
+        Console.WriteLine();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database creation error: {ex.Message}");
+        Console.WriteLine("Check the correctness of the entered password and the availability of the database.");
+        return;
+    }
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -189,24 +209,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<ChatHub>("/chatHub");
-
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
-    try
-    {
-        var loggerFactory = context.GetService<ILoggerFactory>();
-        context.Database.EnsureCreated();
-        Console.WriteLine("Preparation of database --- SUCCESS");
-        Console.WriteLine("Loading server ------------ SUCCESS");
-        Console.WriteLine();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Database creation error: {ex.Message}");
-        Console.WriteLine("Check the correctness of the entered password and the availability of the database.");
-        return;
-    }
-}
 
 app.Run();
